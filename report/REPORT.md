@@ -45,3 +45,21 @@
 Итог - парсинг работает корректно
 
 ![alt text](./imgs/step_2_parser_work.png)
+
+3. Шаг 3: Исправление бага (расписание парсинга).
+
+- Описание проблемы: Фоновый парсинг запускался в секундах, а не в минутах.
+- Файл: app/services/scheduler.py
+- Причина: Неправильная единица времени в APScheduler.
+
+Было:
+
+![alt text](./imgs/step_3_problem.png)
+
+Стало:
+
+![alt text](./imgs/step_3_patch.png)
+
+Итог - scheduler парсинга работает корректно
+
+![alt text](./imgs/step_3_scheduler_work.png)
