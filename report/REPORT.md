@@ -103,3 +103,19 @@
 
 
 ![alt text](./imgs/step_5_return_409.png)
+
+6. Шаг 6: Исправление бага (логика upsert по external_id).
+
+- Описание проблемы: external_id=0 обрабатывался некорректно, тип existing_ids задан неверно.
+- Файл: app/crud/vacancy.py
+- Причина: Ошибка условий для nullable/integer-поля и неверный тип коллекции.
+
+Было:
+
+![alt text](./imgs/step_6_problem.png)
+
+Стало:
+
+![alt text](./imgs/step_6_patch.png)
+
+Итог - поведение upsert стало корректным и предсказуемым для всех валидных external_id
