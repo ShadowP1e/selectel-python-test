@@ -177,3 +177,20 @@
 
 ![alt text](./imgs/step_7_return_409.png)
 
+8. Шаг 8: Исправление бага (`/api/v1/parse/` всегда 200).
+
+- Описание проблемы: даже при внутренний ошибки парсинга всегда возвращается 200
+- Файл: app/services/parser.py, app/api/v1/parse.py
+Причина: Ошибка бизнес-логики обработки исключений.
+
+![alt text](./imgs/step_8_parser_error.png)
+
+Фикс:
+
+![alt text](./imgs/step_8_patch_1.png)
+![alt text](./imgs/step_8_patch_2.png)
+
+
+Итог - код возврата корректно отражает реальное состояние операции.
+
+![alt text](./imgs/step_8_return_503.png)

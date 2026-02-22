@@ -62,7 +62,7 @@ async def parse_and_store(session: AsyncSession) -> int:
                 page += 1
         except (httpx.RequestError, httpx.HTTPStatusError) as exc:
             logger.exception("Ошибка парсинга вакансий: %s", exc)
-            return 0
+            return -1
 
     logger.info("Парсинг завершен, новых вакансий: %s", created_total)
     return created_total

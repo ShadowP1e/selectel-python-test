@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import async_session_maker
@@ -15,4 +15,8 @@ async def get_session() -> AsyncSession:
 @router.post("/")
 async def parse_endpoint(session: AsyncSession = Depends(get_session)) -> dict:
     created_count = await parse_and_store(session)
+    if created_count < 0:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="parsing error"
+        )
     return {"created": created_count}
