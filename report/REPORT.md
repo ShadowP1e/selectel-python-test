@@ -119,3 +119,61 @@
 ![alt text](./imgs/step_6_patch.png)
 
 Итог - поведение upsert стало корректным и предсказуемым для всех валидных external_id
+
+7. Шаг 7: Исправление бага (конфликт при PUT).
+
+- Описание проблемы: При обновлении вакансии на занятый external_id прилетал 500.
+- Файл: app/api/v1/vacancies.py
+- Причина: Необработанный unique conflict.
+
+Сценарий ошибки:
+
+Создадим 2 вакансии A и B
+```json
+{
+    "title":"Bug7 A",
+    "timetable_mode_name":"Гибкий",
+    "tag_name":"backend",
+    "city_name":"Москва",
+    "published_at":"2026-02-22T20:00:00Z",
+    "is_remote_available":true,
+    "is_hot":false,
+    "external_id":900001
+}
+```
+
+![alt text](./imgs/step_7_A.png)
+
+
+```json
+{
+    "title":"Bug7 B",
+    "timetable_mode_name":"Фиксированный",
+    "tag_name":"backend",
+    "city_name":"СПб",
+    "published_at":"2026-02-22T20:01:00Z",
+    "is_remote_available":false,
+    "is_hot":false,
+    "external_id":900002
+}
+```
+
+![alt text](./imgs/step_7_B.png)
+
+
+Пробуем у B поставить external_id от A
+
+![alt text](./imgs/step_7_put_500.png)
+
+Было:
+
+![alt text](./imgs/step_7_problem.png)
+
+Стало:
+
+![alt text](./imgs/step_7_patch.png)
+
+Итог - корректно обрабатывается ситуация с дублирующимся external_id при обновлении
+
+![alt text](./imgs/step_7_return_409.png)
+
