@@ -80,3 +80,26 @@
 
 
 Итог - httpx.AsyncClient корректно закрывается
+
+5. Шаг 5: Исправление бага (неверный статус при дубликате POST).
+
+- Описание проблемы: При дубликате external_id API возвращал 200, а не конфликт.
+- Файл: app/api/v1/vacancies.py
+
+![alt text](./imgs/step_5_new_vac.png)
+![alt text](./imgs/step_5_same_vac.png)
+
+Возвращается статус 200, хотя логичнее возвращать ошибку 409 conflict
+
+Было:
+
+![alt text](./imgs/step_5_problem.png)
+
+Стало:
+
+![alt text](./imgs/step_5_patch.png)
+
+Итог - возвращается корректный статус код
+
+
+![alt text](./imgs/step_5_return_409.png)
