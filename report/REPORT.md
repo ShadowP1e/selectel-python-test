@@ -63,3 +63,20 @@
 Итог - scheduler парсинга работает корректно
 
 ![alt text](./imgs/step_3_scheduler_work.png)
+
+4. Шаг 4: Исправление бага (не закрывался HTTP-клиент).
+
+- Описание проблемы: httpx.AsyncClient не закрывался, из-за чего в памяти приложения накапливался мусор.
+- Файл: app/services/parser.py
+- Причина: Отсутствовал механизм закрытия клиента.
+
+Было:
+
+![alt text](./imgs/step_4_problem.png)
+
+Стало:
+
+![alt text](./imgs/step_4_patch.png)
+
+
+Итог - httpx.AsyncClient корректно закрывается
